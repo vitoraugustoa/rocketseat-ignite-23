@@ -1,12 +1,11 @@
 import styled from 'styled-components'
-import { defaultTheme } from '../../styles/themes/default'
-
 
 export const HistoryContainer = styled.main`
   flex: 1;
   padding: 3.5rem;
   display: flex;
   flex-direction: column;
+  color: ${(props) => props.theme.white};
   h1 {
     font-size: 1.5rem;
     color: ${(props) => props.theme['gray-100']};
@@ -55,9 +54,9 @@ export const HistoryList = styled.div`
 `
 
 const STATUS_COLORS = {
-  yellow: defaultTheme['yellow-500'],
-  green: defaultTheme['green-500'],
-  red: defaultTheme['red-500'],
+  yellow: 'yellow-500',
+  green: 'green-500',
+  red: 'red-500',
 } as const
 
 interface StatusProps {
