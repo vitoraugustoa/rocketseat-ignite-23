@@ -1,11 +1,15 @@
+import { useMutation } from '@tanstack/react-query'
+import { Link, useSearchParams } from 'react-router-dom'
+import { toast } from 'sonner'
+import { z } from 'zod'
+import { useForm } from 'react-hook-form'
+
+import { signIn } from '@/api/sign-in'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Helmet } from 'react-helmet-async'
-import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
-import { toast } from 'sonner'
-import { z } from 'zod'
 
 const signInForm = z.object({
   email: z.string().email(),
@@ -14,18 +18,28 @@ const signInForm = z.object({
 type SignInForm = z.infer<typeof signInForm>
 
 export function SignIn() {
+  const [searchParams] = useSearchParams()
+
   const {
     register,
     handleSubmit,
     formState: { isSubmitting },
-  } = useForm<SignInForm>()
+  } = useForm<SignInForm>({
+    defaultValues: {
+      email: searchParams.get('email') ?? '',
+    },
+  })
+
+  const { mutateAsync: authenticate } = useMutation({
+    mutationFn: signIn,
+  })
 
   async function handleSignIn(data: SignInForm) {
     try {
-      if(!data.email)
+      if (!data.email)
         throw new Error("Deu ruim");
-        
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+
+      await authenticate({ email: data.email });
       toast.success('Enviamos um link de autenticação para seu e-mail.', {
         action: {
           label: 'Reenviar',
@@ -60,7 +74,7 @@ export function SignIn() {
           <form className="space-y-4" onSubmit={handleSubmit(handleSignIn)}>
             <div className="space-y-2">
               <Label htmlFor="email">Seu e-mail</Label>
-              <Input id="email" type="email" {...register('email')}/>
+              <Input id="email" type="email" {...register('email')} />
             </div>
 
             <Button disabled={isSubmitting} className="w-full" type="submit">
