@@ -14,3 +14,7 @@ Para trabalhar com Icones: https://lucide.dev
 Para trabalhar com titulos da pagina: https://github.com/staylor/react-helmet-async
 
 Para trabalhar com gráficos: https://recharts.org/en-US/
+
+Para realizar testes unitários: vitest e testing-library
+
+Para criar uma api Mock: MSW
