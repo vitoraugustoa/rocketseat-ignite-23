@@ -4,6 +4,7 @@
     "prettier"
   ],
   "rules": {
-    "semi":"off"
+    "semi":"off",
+    "@typescript-eslint/no-namespace": "off"
   }
 }
